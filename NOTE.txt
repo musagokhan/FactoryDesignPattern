@@ -1,0 +1,41 @@
+Factory Method Tassarım Kalıbı hakkında bilgiler:
+Tanım: Nesne oluşturmak için evvela Interface tanımlanır. Sonrasında hangi sınıfın nesnesinin oluşturulacağına alt sınıfta karar verilir.
+Dikkat: nesneleri oluşturan subclass'lardaki Interface'den gelen create altında nesne oluşturulurken olabildiğince create'e argüman geçmemeliyiz. Argüman geçtikçe karmaşıklığı artıracak çünkü ilgili argümana ihtiyacı olamayan nesneler olacak. Örneğin işçinin bağlı çalışanı yok yöneticinin bağlı çalışanı var. bunun önüne geçmek için Interface sayısı artırılabilir. Yani farklı subclass lar farklı Interface den beslenirse farklı create methodları olur. Bu biraz daha karmaşıklık artıracaktır. Olabildiğince tekillemeye çalış.
+
+(hr) içindeki oluşumlarda sürekli alt sınıf fabrikaları kullanıldı. bunları daha da toparlamak için AbstractFactory D.P. kullanılır. Sonraki konudur.
+
+Yetersiz (ütopik yapı)
+			Ifactory
+________________|________________
+|				|				|
+EFac			MFac			DFac
+
+Mantıklı yapı:
+IFacE			IFacM			IFacD
+|				|				|
+|				|				|
+EFac			MFac			DFac
+
+
+
+Mevcut kod Mantıklı yapı formundadır:
+A. Model:
+A.1. IFactoryEmployee 	: Interface yapısıdır. Create metodunu ihtiva eder.
+A.2. IFactoryManager	: Interface yapısıdır. Create metodunu ihtiva eder.
+A.3. IFactoryDirector	: Interface yapısıdır. Create metodunu ihtiva eder.
+
+B. factory:
+B.1. EmployeeFactory	: A1_IFactoryEmployee'den implement edilmiştir. Override olan create methodunda C1_Employee 'den nesne türetir.
+B.2. ManagerFactory		: A2_IFactoryManager'den implement edilmiştir. Override olan create methodunda  C2_Manager  'den nesne türetir.
+B.3. DirectorFactory	: A3_IFactoryDirector'den implement edilmiştir. Override olan create methodunda C3_Director 'den nesne türetir.
+
+C. worker:
+C.1. Employee			: Üretilecek esasa nesnelerden birisidir. C3_Director & C3_Director nesnelerine üst (Abstract) sınıftır.
+C.2. Manager			: Üretilecek esasa nesnelerden birisidir. Atası C1'dir.
+C.3. DirectorFactory	: Üretilecek esasa nesnelerden birisidir. Atası C1'dir.
+
+4. hr:
+1. WorkerDetail			: Factory Desing Pattern yapısını kullanılanan sınıftır. B paketndekileri nesne olarak türetir. Bunların create methodundan aldığı verileri C1 'den türetilen ilgili nesnelere atar.
+
+5. mainOp:
+1. MainOperation		: başlatma işlemi
